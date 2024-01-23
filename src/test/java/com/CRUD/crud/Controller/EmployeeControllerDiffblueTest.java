@@ -41,20 +41,18 @@ class EmployeeControllerDiffblueTest {
         employee.setLastname("Doe");
         when(employeeRepository.save(Mockito.<Employee>any())).thenReturn(employee);
 
-
         String content = (new ObjectMapper()).writeValueAsString(employee);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/employees/course")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
-       MockMvcBuilders.standaloneSetup(employeeController)
-               .build()
-               .perform(requestBuilder)
-               .andExpect(MockMvcResultMatchers.status().isOk())
-               .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-               .andExpect(MockMvcResultMatchers.content()
-                      .string("{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"emailId\":\"42\"}"));
+        MockMvcBuilders.standaloneSetup(employeeController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string("{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"emailId\":\"42\"}"));
     }
-
 
     /**
      * Method under test:  {@link EmployeeController#createEmployee(Employee)}
@@ -77,5 +75,35 @@ class EmployeeControllerDiffblueTest {
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    /**
+     * Method under test: {@link EmployeeController#createEmployee(Employee)}
+     */
+    @Test
+    void testCreateEmployee3() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmailId("42");
+        employee.setFirstname("Jane");
+        employee.setId(1L);
+        employee.setLastname("Doe");
+        when(employeeRepository.save(Mockito.<Employee>any())).thenReturn(employee);
+
+        Employee employee2 = new Employee();
+        employee2.setEmailId("42");
+        employee2.setFirstname("Jane");
+        employee2.setId(1L);
+        employee2.setLastname("Doe");
+        String content = (new ObjectMapper()).writeValueAsString(employee2);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/employees/course")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        MockMvcBuilders.standaloneSetup(employeeController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string("{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"emailId\":\"42\"}"));
     }
 }
