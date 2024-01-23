@@ -19,10 +19,10 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @GetMapping("/course")
-    public List<Employee> getAllEmployees(){
-        return employeeRepository.findAll();
-    }
+//    @GetMapping("/course")
+//    public List<Employee> getAllEmployees(){
+//        return employeeRepository.findAll();
+//    }
 
     //rest API
     @PostMapping("/course")
